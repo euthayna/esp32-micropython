@@ -52,7 +52,7 @@
 
    Na imagem abaixo podemos ter um bom entendimento da IDE.
 
-  <img src="workSpace/images/uPyCraft/upycraft_ide.png" width="600" height="400" />
+  <img src="workSpace/images/uPyCraft/upycraft_ide.png" width="600" />
 
   1. Pasta e arquivos
   2. Editor
@@ -101,7 +101,7 @@ No MicroPython Shell você pode digitar comandos para serem executados imediatam
 
   Neste momento você deve ter sua ESP32 conectada ao computador pelo cabo de alimentação.
 
-   <img src="workSpace/images/uPyCraft/upycraft_port.png" width="600" height="400" />
+   <img src="workSpace/images/uPyCraft/upycraft_port.png" width="600" />
 
 **Parte 1**
 
@@ -131,7 +131,7 @@ Selecione todas estas opções para fazer o flash da placa ESP32:
 
 Antes de clicar em "ok" pressione o botão **“BOOT / FLASH”** da sua placa ESP32 e mantenha pressionado até o processo “EraseFlash” começar, quando o processo começar você pode soltar o botão flash, como mostra a imagem abaixo. Após alguns segundos, o firmware será mostrado na sua placa ESP32.
 
-<img src="workSpace/images/uPyCraft/2.png" width="600" height="400" />
+<img src="workSpace/images/uPyCraft/2.png" width="600" />
 
 **_IMPORTANTE:_** Se a barra "EraseFlash" não se mover e você vir uma mensagem de erro dizendo "Erase false", significa que o seu ESP32 não estava no modo intermitente. Feche sua IDE, abra novamente e repita todos os passos descritos anteriormente e lembre de manter o botão “BOOT / FLASH” precionado novamente para garantir que o seu ESP32 entre em modo intermitente.
 
@@ -143,7 +143,7 @@ A imagem abaixo nos mostra o esquema das portas da Esp32.
 Como nossos doids sensores a serem lidos possuem respostas analógicas, precisamos conectá-los em uma porta da ESP32 que aceite a leitura de um valor analógico. Podemos usar qualquer uma das portas ADC1 CHx para fazer a leitura dos nossos sensores.
 Nesse projeto foi usada a porta ADC1 CH4 (D32) para ler o LDR e ADC1 CH5 (D33) para ler o LM35. Como podemos ver na figura, usaremos a saída de 5V.
 
-<img src="workSpace/images/esp32/schematic_esp32_ports.jpg" width="600" height="400" />
+<img src="workSpace/images/esp32/schematic_esp32_ports.jpg" width="600" />
 
 ### GroveStreams 
 
@@ -168,13 +168,21 @@ Nesse projeto foi usada a porta ADC1 CH4 (D32) para ler o LDR e ADC1 CH5 (D33) p
   
   3. Crie um componente
   
+  <img src="workSpace/images/grove_streams/gs_component_2.png" width="600" />
+  
+  <img src="workSpace/images/grove_streams/gs_component_3.png" width="600" />
+  
+  Lembre-se que valor que colocares no id do componente será o mesmo valor usado no nosso cógido abaixo quando nos referirmos ao 'id do componente'.
+  
   **_IMPORTANTE_**: Alguns fusos horários estão com problemas, por isso você deve a colocar o componente em outro fuso America/Montivideu ou Africa (esses funcionaram de primeira para mim). Após sua ESP32 estabelecer conexão pela primeira vez com o GroveStreams, através do primeiro request, você poderá colocar no fuso horário correto. _Caso não funcione, deixe no fuso anterior._
   
   4. Acesse o API keys
  
-  <img src="workSpace/images/grove_streams/gs_api_key.png" width="400" height="250" />
+  <img src="workSpace/images/grove_streams/gs_api_key.png" width="600" />
   
-  <img src="workSpace/images/grove_streams/gs_api_key_2.png" width="400" height="250" />
+  <img src="workSpace/images/grove_streams/gs_api_key_2.png" width="600" />
+  
+  <img src="workSpace/images/grove_streams/gs_api_key_3.png" width="600" />
   
 Não se preocupe em criar _streams_, pois quando enviarmos nosso primeiro request (PUT) ao nosso componente ele criará os streams ‘temperature’ e ‘luminosity' automaticamente.
 
@@ -212,21 +220,23 @@ station.connect("nomedarede", "senha")
   adc_temp = ADC(Pin(33))
  ```
 Para que o GroveStreams aceite os dados que queremos enviar para ele, devemos enviar a URL no seguinte formato:
-_http://grovestreams.com/api/feed?compId=comp1&data1=value&data2=value_, sendo que o valor de compId você vai definir quando for 
-Temos alguns dados dessa url que serão sempre iguais em todos os requests, por isso criei variáveis com eles.
+_http://grovestreams.com/api/feed?compId=valueId&data1=value&data2=value_, sendo que o valor de compId você definiu acima quando criamos o componente.
+
+Temos alguns dados dessa url que serão sempre iguais em todos os requests, por isso criei constantes com eles.
 
 ```python
   api_key = '&api_key=chave'
   component_id = 'numero_do_id_do_componente'  
   base_url = '/api/feed?'
 ```
-A linha abaixo é usada no cálculo para fazer uma conversão para graus dos valores lidos pelo sensor de temperatura.
+A linha abaixo é usada no cálculo para fazer uma conversão para graus celsius dos valores lidos pelo sensor de temperatura.
 
 ```python
   ref = (1.5/4095) / 0.01
 ```
 
-Ok, agora vamos para o loop que ficará lendo nossos sensores e fazendo a requisição http ao GroveStreams
+Ok, agora vamos para o loop que ficará lendo nossos sensores e fazendo a requisição http ao GroveStreams.
+
 ```python
 while True:
     #leitura do LDR
@@ -253,10 +263,19 @@ while True:
 
 Quando clicar em DownloadAndRun você verá o resultado no terminal, assim como mostra a imagem abaixo.
 
-<img src="workSpace/images/uPyCraft/4.png" width="800" height="550" />
+<img src="workSpace/images/uPyCraft/4.png" width="600" />
 
 Se sua url estiver sendo montada corretamente e o componente do GroveStreams estiver devidamente configurado, se você for até o seu navegor e atualizar seu componente você deverá ver os mesmos valores acima no seu componente.
 
 #### Protoboard
 
-<img src="workSpace/images/protoboard/protoboard_esp32.png" width="600" height="450" />
+<img src="workSpace/images/protoboard/protoboard_esp32.png" width="600" />
+
+
+### Resultados
+
+Esses são os gráficos monstados pelo GroveStreams com 30 amostras de dados enviados pela nossa ESP32.
+
+<img src="workSpace/images/grove_streams/grafico_temp.png" width="600" />
+
+<img src="workSpace/images/grove_streams/grafico_luminosidade.png" width="600" />
