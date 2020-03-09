@@ -1,5 +1,4 @@
 # Monitoramento na IoT
-## Atividade da Disciplina de Sistemas Operacionais II
 
 - **Embarcado utilizado:** [ESP32](https://pt.wikipedia.org/wiki/ESP32)
 - **Linguagem de Programação:** [MicroPython](https://micropython.org/)
